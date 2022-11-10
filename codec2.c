@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
         exit(1);
     }
     if(copyFiles(f1, f2)){
-        printf("Copy\n");
+        printf("file is copied\n");
     }
     fclose(f1);
     fclose(f2);
