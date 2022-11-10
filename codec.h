@@ -1,0 +1,1 @@
+int cmprFiles(FILE* ptr1, FILE* ptr2);
