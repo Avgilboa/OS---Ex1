@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+
 #define RW_BLOCK 10
 int CopyContent(int fsource, int fddst){
     ssize_t readBytes, wroteBytes;
@@ -43,7 +47,58 @@ int main(int argc, char *argv[])
     {
         printf("Usage : copy <file1> <file2>");
         exit(1);
+
     }
+
+
+    if(argc ==3){
+        char * buff;
+        int size=120;
+        struct stat sb;
+        if (stat(argv[1], &sb) == -1) {
+        perror("stat");
+        exit(1);
+    }
+    buff = malloc(sizeof(char)*(size+1));
+    printf("%d",S_ISLNK(sb.st_mode));
+    while(readlink(argv[1], buff, size) > size){
+        size = size*2;
+    }
+    buff[size] = '\0';
+    char *dest = argv[2];
+    int fddst;
+        if ((fddst = open(dest ,O_WRONLY|O_CREAT , 0666)) < 0)
+        {
+            perror(" cant open dest file");
+            exit(1);
+        }
+        write(fddst, buff, size);
+        close(fddst);
+
+    printf("%s\n \n", buff);
+
+    free(buff);
+        printf("I-node number:            %ld\n", (long) sb.st_ino);
+
+        printf("Mode:                     %lo (octal)\n",
+                    (unsigned long) sb.st_mode);
+
+        printf("Link count:               %ld\n", (long) sb.st_nlink);
+            printf("Ownership:                UID=%ld   GID=%ld\n",
+                    (long) sb.st_uid, (long) sb.st_gid);
+
+        printf("Preferred I/O block size: %ld bytes\n",
+                    (long) sb.st_blksize);
+            printf("File size:                %lld bytes\n",
+                    (long long) sb.st_size);
+            printf("Blocks allocated:         %lld\n",
+                    (long long) sb.st_blocks);
+
+        printf("Last status change:       %s", ctime(&sb.st_ctime));
+            printf("Last file access:         %s", ctime(&sb.st_atime));
+            printf("Last file modification:   %s", ctime(&sb.st_mtime));
+        }
+    
     if(argc ==4){
             int opt = getopt(argc, argv,":if:l" );
             if(opt!= 'l'){
@@ -70,7 +125,7 @@ int main(int argc, char *argv[])
             perror(" cant open sorce file");
             exit(-1);
         }
-
+        
         if ((fddst = open(dest ,O_WRONLY|O_CREAT , 0666)) < 0)
         {
             perror(" cant open dest file");
