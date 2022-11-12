@@ -2,12 +2,13 @@
 
 int encode(char* src ,char* dst, int len){
     int indx =0;
-    while (src[indx] != '\0')
+    while (indx < len)
     {
         if(isalpha(src[indx])){ dst[indx] = tolower(src[indx]);}
         else {dst[indx] = src[indx];}
         indx ++;
     }
+    printf("%s\n", dst);
     return 1;
 }
 
