@@ -23,7 +23,7 @@ int cmprFiles(FILE* ptr1, FILE* ptr2){
 
 int main(int argc, char *argv[]){
     if(argc != 3){
-        printf("You nedd exactly two files");
+        printf("Usage : cmp <file1> <file2>");
         exit(1);
     }
     FILE * f1;
