@@ -1,4 +1,4 @@
-/// gcc try.c -ldl encode
+/// gcc encode.c -ldl -o encode
 // Usage: ./encode <codec Type> <message>
 // Usage: ./decode <codec Type> <message>
 #include <stdio.h>
@@ -39,7 +39,7 @@ main(int argc, char **argv)
     }
     int len =strlen(argv[2]);
     char* dest = malloc(sizeof(char) *(len+1));
-   (*func)(argv[2], dest , len);
+    (*func)(argv[2], dest , len);
     dlclose(handle);
     free(adress);
     free(dest);

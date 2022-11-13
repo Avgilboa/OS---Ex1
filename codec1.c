@@ -21,5 +21,6 @@ int decode(char* src ,char* dst, int len){
         else dst[indx] = src[indx];
         indx ++;
     }
+    printf("%s\n", dst);
     return 1;
 }
