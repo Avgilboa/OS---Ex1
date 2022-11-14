@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
+#include<limits.h>
 
 #define RW_BLOCK 10
 int CopyContent(int fsource, int fddst){
@@ -53,51 +54,64 @@ int main(int argc, char *argv[])
 
     if(argc ==3){
         char * buff;
+        char path[PATH_MAX];
+        if(!realpath(argv[1],path))
+        {
+            perror("cant find the real path");
+            exit(1);
+        }
+        printf("\nthe link path is: %s\n the real path is: %s",argv[1],path);
         int size=120;
         struct stat sb;
-        if (stat(argv[1], &sb) == -1) {
-        perror("stat");
-        exit(1);
-    }
-    buff = malloc(sizeof(char)*(size+1));
-    printf("%d",S_ISLNK(sb.st_mode));
-    while(readlink(argv[1], buff, size) > size){
-        size = size*2;
-    }
-    buff[size] = '\0';
-    char *dest = argv[2];
-    int fddst;
+        if (stat(path, &sb) == -1) {
+            perror("stat");
+            exit(1);
+        }
+        buff = malloc(sizeof(char)*(sb.st_size+1));
+        printf("%d",S_ISLNK(sb.st_mode));
+        while(readlink(argv[1], buff, size) > size){
+            size = size*2;
+        }
+        buff[size] = '\0';
+        char *dest = argv[2];
+        int fddst;
+        int fdsrc;
+        if ((fdsrc = open(path ,O_RDONLY)) < 0)
+        {
+            perror(" cant open sorce file");
+            exit(1);
+        }
         if ((fddst = open(dest ,O_WRONLY|O_CREAT , 0666)) < 0)
         {
             perror(" cant open dest file");
             exit(1);
         }
-        write(fddst, buff, size);
+        CopyContent(fdsrc,fddst);
+        //write(fddst, buff, size);
         close(fddst);
 
-    printf("%s\n \n", buff);
+        printf("%s\n \n", buff);
 
-    free(buff);
+        free(buff);
         printf("I-node number:            %ld\n", (long) sb.st_ino);
 
         printf("Mode:                     %lo (octal)\n",
                     (unsigned long) sb.st_mode);
 
         printf("Link count:               %ld\n", (long) sb.st_nlink);
-            printf("Ownership:                UID=%ld   GID=%ld\n",
+        printf("Ownership:                UID=%ld   GID=%ld\n",
                     (long) sb.st_uid, (long) sb.st_gid);
-
         printf("Preferred I/O block size: %ld bytes\n",
                     (long) sb.st_blksize);
-            printf("File size:                %lld bytes\n",
+        printf("File size:                %lld bytes\n",
                     (long long) sb.st_size);
-            printf("Blocks allocated:         %lld\n",
+        printf("Blocks allocated:         %lld\n",
                     (long long) sb.st_blocks);
 
         printf("Last status change:       %s", ctime(&sb.st_ctime));
-            printf("Last file access:         %s", ctime(&sb.st_atime));
-            printf("Last file modification:   %s", ctime(&sb.st_mtime));
-        }
+        printf("Last file access:         %s", ctime(&sb.st_atime));
+        printf("Last file modification:   %s", ctime(&sb.st_mtime));
+    }
     
     if(argc ==4){
             int opt = getopt(argc, argv,":if:l" );
