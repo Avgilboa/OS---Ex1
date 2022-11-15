@@ -3,13 +3,13 @@ Q.1 - Examples
 
 Script started on 2022-11-15 20:29:57+02:00
 
- ./cmp file1.txtfile2.txt
+ ./cmp file1.txt file2.txt
  
 Not identical
 
 ./cmp file1.txt
 
-Usage : cmp <file1> <file2>
+Usage : cmp < file1 > < file2 >
 
 exit
 
@@ -24,7 +24,7 @@ Script started on 2022-11-14 11:26:11+02:00
 
 file link is copied
 
-./copy -l ptr.txt file1.txt
+./copy -l ptr.txt file1.txt
 
 file is copied
 
