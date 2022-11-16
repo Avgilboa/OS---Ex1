@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "codec.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -8,7 +9,6 @@
 #include <time.h>
 #include<limits.h>
 
-int CopyContent(int fsource, int fddst);
 #define RW_BLOCK 10
 int CopyContent(int fsource, int fddst){
     ssize_t readBytes, wroteBytes;
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
             perror("cant find the real path");
             exit(1);
         }
-        printf("\nthe link path is: %s\n the real path is: %s",argv[1],path);
+        //printf("\nthe link path is: %s\n the real path is: %s",argv[1],path);
         int size=120;
         struct stat sb;
         if (stat(path, &sb) == -1) {
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
         buff = malloc(sizeof(char)*(sb.st_size+1));
-        printf("%d",S_ISLNK(sb.st_mode));
+        //printf("%d",S_ISLNK(sb.st_mode));
         while(readlink(argv[1], buff, size) > size){
             size = size*2;
         }
@@ -87,13 +87,13 @@ int main(int argc, char *argv[])
             exit(1);
         }
         CopyContent(fdsrc,fddst);
-        //write(fddst, buff, size);
+        printf("file link is copied\n");
+
+	close(fdsrc);
         close(fddst);
 
-        printf("%s\n \n", buff);
-
         free(buff);
-        
+     	
     }
     
     if(argc ==4){
