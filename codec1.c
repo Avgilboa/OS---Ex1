@@ -1,3 +1,4 @@
+//gcc -o libcodec1.so -shared -fPIC codec1.c
 #include "codec.h"
 
 int encode(char* src ,char* dst, int len){
@@ -8,7 +9,7 @@ int encode(char* src ,char* dst, int len){
         else {dst[indx] = src[indx];}
         indx ++;
     }
-    printf("%s\n", dst);
+    //printf("%s\n", dst);
     return 1;
 }
 
@@ -19,8 +20,8 @@ int decode(char* src ,char* dst, int len){
     {
         if(isalpha(src[indx])) dst[indx] = toupper(src[indx]);
         else dst[indx] = src[indx];
-        indx ++;
+        indx++;
     }
-    printf("%s\n", dst);
+    //printf("%s\n", dst);
     return 1;
 }

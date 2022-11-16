@@ -11,7 +11,7 @@ int encode(char* src ,char* dst, int len){
         dst[indx] = temp;
         indx++;
     }
-    printf("%s\n", dst);
+    //printf("%s\n", dst);
     return 1;
 }
 
@@ -24,6 +24,6 @@ int decode(char* src ,char* dst, int len){
         dst[indx] = temp;
         indx++;
     }
-    printf("%s\n", dst);
+    //printf("%s\n", dst);
     return 1;
 }

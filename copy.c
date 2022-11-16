@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "codec.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -9,6 +8,7 @@
 #include <time.h>
 #include<limits.h>
 
+int CopyContent(int fsource, int fddst);
 #define RW_BLOCK 10
 int CopyContent(int fsource, int fddst){
     ssize_t readBytes, wroteBytes;
@@ -93,24 +93,7 @@ int main(int argc, char *argv[])
         printf("%s\n \n", buff);
 
         free(buff);
-        printf("I-node number:            %ld\n", (long) sb.st_ino);
-
-        printf("Mode:                     %lo (octal)\n",
-                    (unsigned long) sb.st_mode);
-
-        printf("Link count:               %ld\n", (long) sb.st_nlink);
-        printf("Ownership:                UID=%ld   GID=%ld\n",
-                    (long) sb.st_uid, (long) sb.st_gid);
-        printf("Preferred I/O block size: %ld bytes\n",
-                    (long) sb.st_blksize);
-        printf("File size:                %lld bytes\n",
-                    (long long) sb.st_size);
-        printf("Blocks allocated:         %lld\n",
-                    (long long) sb.st_blocks);
-
-        printf("Last status change:       %s", ctime(&sb.st_ctime));
-        printf("Last file access:         %s", ctime(&sb.st_atime));
-        printf("Last file modification:   %s", ctime(&sb.st_mtime));
+        
     }
     
     if(argc ==4){

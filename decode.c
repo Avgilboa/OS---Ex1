@@ -1,4 +1,4 @@
-/// gcc try.c -ldl encode
+/// gcc decode.c -ldl -o decode
 // Usage: ./decode <codec Type> <message>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +30,7 @@ main(int argc, char **argv)
        Corrigendum 1) workaround; see the Rationale for the
        POSIX specification of dlsym(). */
 
-   *(void **) (&func) = dlsym(handle, "encode");
+   *(void **) (&func) = dlsym(handle, "decode");
 
    if ((error = dlerror()) != NULL)  {
         fprintf(stderr, "%s\n", error);
@@ -39,6 +39,7 @@ main(int argc, char **argv)
     int len =strlen(argv[2]);
     char* dest = malloc(sizeof(char) *(len+1));
    (*func)(argv[2], dest , len);
+    printf("%s", dest);
     dlclose(handle);
     free(adress);
     free(dest);

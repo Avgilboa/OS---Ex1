@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include "codec.h"
 #include <stdlib.h>
-
+int cmprFiles(FILE* ptr1, FILE* ptr2);
 /** This code compare two files and print if they identicxl or not**/
 int cmprFiles(FILE* ptr1, FILE* ptr2){
     int char1 , char2;

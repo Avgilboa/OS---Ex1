@@ -16,7 +16,7 @@ main(int argc, char **argv)
     strcat(adress , "lib");
     strcat(adress , argv[1]);
     strcat(adress , ".so");
-   handle = dlopen( adress , RTLD_LAZY);
+    handle = dlopen( adress , RTLD_LAZY);
     if (!handle) {
         fprintf(stderr, "%s\n", dlerror());
         exit(EXIT_FAILURE);
@@ -40,6 +40,7 @@ main(int argc, char **argv)
     int len =strlen(argv[2]);
     char* dest = malloc(sizeof(char) *(len+1));
     (*func)(argv[2], dest , len);
+    printf("%s\n" , dest);
     dlclose(handle);
     free(adress);
     free(dest);
