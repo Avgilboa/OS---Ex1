@@ -12,7 +12,7 @@ main(int argc, char **argv)
     void *handle;
     int (*func)(char* , char* , int);
     char *error;
-    char* adress = malloc(sizeof(char) *(3 + strlen(argv[1]) +3 +1) );
+    char* adress = malloc(sizeof(char) *(3 + strlen(argv[1]) +3 + 1) );
     strcat(adress , "lib");
     strcat(adress , argv[1]);
     strcat(adress , ".so");

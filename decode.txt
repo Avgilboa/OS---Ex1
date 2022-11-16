@@ -1,0 +1,6 @@
+Script started on 2022-11-16 09:01:01-08:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="111" LINES="5"]
+]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ exit./decode codec1 55HEL21LOworl&d11[1Pd11[C[C[C
+55HEL21LOWORLD11]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ wxit[K[K[K[Kexit
+exit
+
+Script done on 2022-11-16 09:01:14-08:00 [COMMAND_EXIT_CODE="0"]

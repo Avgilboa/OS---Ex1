@@ -1,0 +1,20 @@
+Script started on 2022-11-16 08:58:40-08:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="111" LINES="5"]
+]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ make
+gcc -o cmp cmp.c
+gcc -o copy copy.c
+gcc -o libcodec1.so -shared -fPIC codec1.c
+gcc -o libcodec2.so -shared -fPIC codec2.c
+gcc encode.c -ldl -o encode
+export LD_LIBRARY_PATH=.
+gcc decode.c -ldl -o decode
+export LD_LIBRARY_PATH=.
+]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ ./encode codec1.c[K[K HELLOW[Kworld
+helloworld
+]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ ./encode codec1 HELLOworld12[C4HELLOworld124HELLOworld124HELLOworld125HELLOworld127HELLOworld12[C[C[C#LOworld12[1PLOworld12^LOworld12[C[C[C[C[C[C[C[C[C
+44457hel^loworld12
+]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ exit[K[K[K[K./encode codec1 44457HEL^LOworld12[1P 44457HEL^LOworld122 44457HEL^LOworld12
+ÌÌÌËÉ¸»´¢´±‰‘Ž”œÏÎ
+]0;aviad@ubuntu: ~/Documents/OS---Ex1[01;32maviad@ubuntu[00m:[01;34m~/Documents/OS---Ex1[00m$ exit
+exit
+
+Script done on 2022-11-16 08:59:54-08:00 [COMMAND_EXIT_CODE="0"]

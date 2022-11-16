@@ -31,3 +31,7 @@ file is copied
 exit
 
 Script done on 2022-11-14 11:26:26+02:00 [COMMAND_EXIT_CODE="0"]
+
+we use codes from the some sources:
+1. open and close files - from leacture1
+2. open the library function inside the c code - from the man page of dlsym.
