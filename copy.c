@@ -53,30 +53,11 @@ int main(int argc, char *argv[])
 
 
     if(argc ==3){
-        char * buff;
-        char path[PATH_MAX];
-        if(!realpath(argv[1],path))
-        {
-            perror("cant find the real path");
-            exit(1);
-        }
-        //printf("\nthe link path is: %s\n the real path is: %s",argv[1],path);
-        int size=120;
-        struct stat sb;
-        if (stat(path, &sb) == -1) {
-            perror("stat");
-            exit(1);
-        }
-        buff = malloc(sizeof(char)*(sb.st_size+1));
-        //printf("%d",S_ISLNK(sb.st_mode));
-        while(readlink(argv[1], buff, size) > size){
-            size = size*2;
-        }
-        buff[size] = '\0';
         char *dest = argv[2];
+        char *src= argv[1];
         int fddst;
         int fdsrc;
-        if ((fdsrc = open(path ,O_RDONLY)) < 0)
+        if ((fdsrc = open(src ,O_RDONLY)) < 0)
         {
             perror(" cant open sorce file");
             exit(1);
@@ -90,10 +71,7 @@ int main(int argc, char *argv[])
         printf("file link is copied\n");
 
 	close(fdsrc);
-        close(fddst);
-
-        free(buff);
-     	
+    	close(fddst);     	
     }
     
     if(argc ==4){
