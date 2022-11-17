@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include<limits.h>
+#include<string.h>
 
 #define RW_BLOCK 10
 int CopyContent(int fsource, int fddst){
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
         printf("file link is copied\n");
 
 	close(fdsrc);
-    	close(fddst);     	
+    close(fddst);     	
     }
     
     if(argc ==4){
@@ -87,24 +88,46 @@ int main(int argc, char *argv[])
             sourc - save the adress of the src file.
             dest - save the adress of the new file .
         */
-        int fsource, fddst;  
-        char *sourc = argv[2];
+        int fsource;
+        int fddst;  
+        //char *sourc = argv[2];
         char *dest = argv[3];
         /** 
      *   open src file with the adress and for ReadOnly and check that we dont get errors
     *     open the name of the copy file and to write only, and if its nod exsist create it
     * 
     * **/
-        if ((fsource = open(sourc, O_RDONLY)) < 0) 
+        /*if ((fsource = open(sourc, O_RDONLY)) < 0) 
         {
             perror(" cant open sorce file");
             exit(-1);
-        }
+        }*/
         
         if ((fddst = open(dest ,O_WRONLY|O_CREAT , 0666)) < 0)
         {
             perror(" cant open dest file");
             exit(1);
+        }
+        char path[PATH_MAX];
+        if(!realpath(argv[2],path))
+        {
+            perror("cant find the real path");
+            exit(1);
+        }
+        ssize_t wroteBytes, pathBytes;
+        pathBytes = strlen(path);
+        wroteBytes = write(fddst, path, pathBytes);
+        if (wroteBytes < 0)
+        {
+            printf("this is the error\n");
+            if (errno == EDQUOT)
+            {
+                printf("ERROR: out of quota.\n");
+            }
+            else if (errno == ENOSPC)
+            {
+                printf("ERROR: not enough disk space.\n");
+            }
         }
     /**
      * define buffer on size of a block.
@@ -112,10 +135,10 @@ int main(int argc, char *argv[])
      * when there is no chars to read it stop and close the files for use.
      * 
      * **/
-        if(CopyContent(fsource, fddst)!=1){
+        /*if(CopyContent(fsource, fddst)!=1){
             return 1;
-        }
-        printf("file is copied\n");
+        }*/
+        printf("file contents is copied\n");
     }
     return 0;
 }
