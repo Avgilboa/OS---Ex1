@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
         }
         ssize_t wroteBytes, nbytes, bufsiz;
         char *buf;
-        bufsiz = sb.st_size + 1;
+        bufsiz = sb.st_size + 4;
         if (sb.st_size == 0)
         {
             bufsiz = PATH_MAX;
