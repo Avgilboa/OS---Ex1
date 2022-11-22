@@ -70,17 +70,18 @@ int main(int argc, char *argv[])
         }
         CopyContent(fdsrc,fddst);
         printf("file link is copied\n");
-
-	close(fdsrc);
-    close(fddst);     	
+    /// close the files in the CopyContent function
+	// close(fdsrc);
+    // close(fddst);     	
     }
     
     if(argc ==4){
-            int opt = getopt(argc, argv,":if:l" );
-            if(opt!= 'l'){
-                printf("Usage : copy <file1> <file2>");
-                exit(1);
-            }
+        // first if the flag is not -l exit
+        int opt = getopt(argc, argv,":if:l" );
+        if(opt!= 'l'){
+            printf("Usage : copy <file1> <file2>");
+            exit(1);
+        }
         
         /* 
             fsource - The status and action about the source file.
