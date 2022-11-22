@@ -5,6 +5,7 @@ int cmprFiles(FILE* ptr1, FILE* ptr2);
 int cmprFiles(FILE* ptr1, FILE* ptr2){
     int char1 , char2;
     if (ptr1 && ptr2) {
+        //loop that compare every char if equal in the two file
         do
         {
             char1 = getc(ptr1);
@@ -21,12 +22,14 @@ int cmprFiles(FILE* ptr1, FILE* ptr2){
 }
 
 int main(int argc, char *argv[]){
+    //check if you get 2 file
     if(argc != 3){
         printf("Usage : cmp <file1> <file2>");
         exit(1);
     }
     FILE * f1;
     FILE* f2;
+    //open the files in read mode and check if they open right
     if((f1 = fopen(argv[1], "r")) ==NULL || (f2 = fopen (argv[2], "r")) ==NULL ){
         printf("The file is not exsist");
         exit(1);
