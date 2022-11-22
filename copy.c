@@ -109,14 +109,23 @@ int main(int argc, char *argv[])
             exit(1);
         }
         char path[PATH_MAX];
-        if(!realpath(argv[2],path))
+        struct stat sb;
+        
+        if(stat(argv[2],&sb)==-1)
         {
-            perror("cant find the real path");
+            perror("cant find the stat");
             exit(1);
         }
-        ssize_t wroteBytes, pathBytes;
-        pathBytes = strlen(path);
-        wroteBytes = write(fddst, path, pathBytes);
+        ssize_t wroteBytes, nbytes, bufsiz;
+        char *buf;
+        bufsiz = sb.st_size + 1;
+        if (sb.st_size == 0)
+        {
+            bufsiz = PATH_MAX;
+        }
+        buf = malloc(bufsiz);
+        nbytes = readlink(argv[2],buf,bufsiz);
+        wroteBytes = write(fddst, buf, nbytes);
         if (wroteBytes < 0)
         {
             printf("this is the error\n");
@@ -139,6 +148,7 @@ int main(int argc, char *argv[])
             return 1;
         }*/
         printf("file contents is copied\n");
+        free(buf);
     }
     return 0;
 }
