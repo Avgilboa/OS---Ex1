@@ -63,13 +63,12 @@ int main(int argc, char *argv[])
             perror(" cant open sorce file");
             exit(1);
         }
-        if ((fddst = open(dest ,O_WRONLY|O_CREAT , 0666)) < 0)
+        if ((fddst = open(dest ,O_RDONLY | O_WRONLY | O_TRUNC | O_WRONLY|O_CREAT , 0666)) < 0)
         {
             perror(" cant open dest file");
             exit(1);
         }
         CopyContent(fdsrc,fddst);
-        printf("file link is copied\n");
     /// close the files in the CopyContent function
 	// close(fdsrc);
     // close(fddst);     	
@@ -104,7 +103,7 @@ int main(int argc, char *argv[])
             exit(-1);
         }*/
         
-        if ((fddst = open(dest ,O_WRONLY|O_CREAT , 0666)) < 0)
+        if ((fddst = open(dest ,O_RDONLY | O_WRONLY | O_TRUNC | O_WRONLY | O_CREAT , 0666)) < 0)
         {
             perror(" cant open dest file");
             exit(1);
@@ -119,7 +118,7 @@ int main(int argc, char *argv[])
         }
         ssize_t wroteBytes, nbytes, bufsiz;
         char *buf;
-        bufsiz = sb.st_size + 4;
+        bufsiz = PATH_MAX;
         if (sb.st_size == 0)
         {
             bufsiz = PATH_MAX;
@@ -148,8 +147,8 @@ int main(int argc, char *argv[])
         /*if(CopyContent(fsource, fddst)!=1){
             return 1;
         }*/
-        printf("file contents is copied\n");
         free(buf);
+        close(fddst);
     }
     return 0;
 }
