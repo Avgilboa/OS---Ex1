@@ -14,17 +14,17 @@
 int CopyContent(int fsource, int fddst){
     ssize_t readBytes, wroteBytes;
     char *buf[RW_BLOCK];
-    lseek(fddst,0,SEEK_SET);
+    lseek(fddst,0,SEEK_SET); //start the writing from the begining of the file
     do
     {
-        readBytes = read(fsource, buf, RW_BLOCK);
+        readBytes = read(fsource, buf, RW_BLOCK); //read every time 10 byte from file 1
         if (readBytes < 0)
         {
             printf("I/O errors\n");
             exit(-10);
         }
 
-        wroteBytes = write(fddst, buf, readBytes);
+        wroteBytes = write(fddst, buf, readBytes); // write the bytes we read to file 2
         if (wroteBytes < 0)
         {
             printf("this is the error\n");
@@ -52,28 +52,26 @@ int main(int argc, char *argv[])
 
     }
 
-
+    // without -l
     if(argc ==3){
         char *dest = argv[2];
         char *src= argv[1];
         int fddst;
         int fdsrc;
-        if ((fdsrc = open(src ,O_RDONLY)) < 0)
+        if ((fdsrc = open(src ,O_RDONLY)) < 0) //open file 1 for read
         {
             perror(" cant open sorce file");
             exit(1);
         }
-        if ((fddst = open(dest ,O_RDONLY | O_WRONLY | O_TRUNC | O_WRONLY|O_CREAT , 0666)) < 0)
+        if ((fddst = open(dest ,O_RDONLY | O_WRONLY | O_TRUNC | O_WRONLY|O_CREAT , 0666)) < 0) //open file 2 to write
         {
             perror(" cant open dest file");
             exit(1);
         }
         CopyContent(fdsrc,fddst);
     /// close the files in the CopyContent function
-	// close(fdsrc);
-    // close(fddst);     	
-    }
-    
+	}
+//with -l option    
     if(argc ==4){
         // first if the flag is not -l exit
         int opt = getopt(argc, argv,":if:l" );
@@ -97,12 +95,6 @@ int main(int argc, char *argv[])
     *     open the name of the copy file and to write only, and if its nod exsist create it
     * 
     * **/
-        /*if ((fsource = open(sourc, O_RDONLY)) < 0) 
-        {
-            perror(" cant open sorce file");
-            exit(-1);
-        }*/
-        
         if ((fddst = open(dest ,O_RDONLY | O_WRONLY | O_TRUNC | O_WRONLY | O_CREAT , 0666)) < 0)
         {
             perror(" cant open dest file");
