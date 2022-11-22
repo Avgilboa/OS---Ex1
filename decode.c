@@ -9,13 +9,17 @@ int
 main(int argc, char **argv)
 {
     void *handle;
+    //
     int (*func)(char* , char* , int);
+    // The function will return int and get this three parameters
     char *error;
     char* adress = malloc(sizeof(char) *(3 + strlen(argv[1]) +3 +1) );
+    // the adress will fill with "lib" + the name of the libary + .so
     strcat(adress , "lib");
     strcat(adress , argv[1]);
     strcat(adress , ".so");
    handle = dlopen( adress , RTLD_LAZY);
+   // check if we can open the file with the name we get from the user
     if (!handle) {
         fprintf(stderr, "%s\n", dlerror());
         exit(EXIT_FAILURE);
@@ -31,16 +35,21 @@ main(int argc, char **argv)
        POSIX specification of dlsym(). */
 
    *(void **) (&func) = dlsym(handle, "decode");
+   // check if the function is in the library 
 
    if ((error = dlerror()) != NULL)  {
         fprintf(stderr, "%s\n", error);
         exit(EXIT_FAILURE);
     }
+
     int len =strlen(argv[2]);
     char* dest = malloc(sizeof(char) *(len+1));
    (*func)(argv[2], dest , len);
+   // runnig the function
     printf("%s", dest);
+    //print the result after the decoding
     dlclose(handle);
+    // free all the alloctae memory used
     free(adress);
     free(dest);
     exit(EXIT_SUCCESS);
