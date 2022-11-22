@@ -81,17 +81,17 @@ int main(int argc, char *argv[])
         }
         
         /* 
-            fsource - The status and action about the source file.
             fddst - The status and action about the new coping file.
-            sourc - save the adress of the src file.
             dest - save the adress of the new file .
         */
-        int fsource;
         int fddst;  
-        //char *sourc = argv[2];
         char *dest = argv[3];
+        ssize_t wroteBytes, nbytes, bufsiz;
+        char *buf;
+        char path[PATH_MAX];
+        struct stat sb;
         /** 
-     *   open src file with the adress and for ReadOnly and check that we dont get errors
+     *   open dest file with the adress and for wrote and check that we dont get errors
     *     open the name of the copy file and to write only, and if its nod exsist create it
     * 
     * **/
@@ -100,23 +100,23 @@ int main(int argc, char *argv[])
             perror(" cant open dest file");
             exit(1);
         }
-        char path[PATH_MAX];
-        struct stat sb;
         
+        //get the stat of the link file
         if(stat(argv[2],&sb)==-1)
         {
             perror("cant find the stat");
             exit(1);
         }
-        ssize_t wroteBytes, nbytes, bufsiz;
-        char *buf;
+        
         bufsiz = PATH_MAX;
         if (sb.st_size == 0)
         {
             bufsiz = PATH_MAX;
         }
         buf = malloc(bufsiz);
+        //read the link file name to buf and count the byte size to nbytes
         nbytes = readlink(argv[2],buf,bufsiz);
+        // write the file name to the seconde file and check if thier is no error
         wroteBytes = write(fddst, buf, nbytes);
         if (wroteBytes < 0)
         {
@@ -130,17 +130,9 @@ int main(int argc, char *argv[])
                 printf("ERROR: not enough disk space.\n");
             }
         }
-    /**
-     * define buffer on size of a block.
-     * read chars to cuff and write it on the new file.
-     * when there is no chars to read it stop and close the files for use.
-     * 
-     * **/
-        /*if(CopyContent(fsource, fddst)!=1){
-            return 1;
-        }*/
-        free(buf);
-        close(fddst);
+        
+    free(buf);
+    close(fddst);
     }
     return 0;
 }
